@@ -1,0 +1,106 @@
+<div style="z-index: 1000">
+  <div class="--dark-theme" id="chat" [@openClose]="isOpen ? 'open' : 'closed'">
+    <button class="chat-close-btn" (click)="toggleChat()">X</button>
+    <div class="chat__conversation-board">
+      <ng-container *ngFor="let message of messages">
+        <div
+          class="chat__conversation-board__message-container reversed"
+          *ngIf="message.type === 'query'"
+        >
+          <div class="chat__conversation-board__message__person">
+            <div class="chat__conversation-board__message__person__avatar">
+              <img
+                src="https://randomuser.me/api/portraits/men/32.jpg"
+                alt="user"
+              />
+            </div>
+            <span class="chat__conversation-board__message__person__nickname">
+              user
+            </span>
+          </div>
+          <div class="chat__conversation-board__message__context">
+            <div class="chat__conversation-board__message__bubble">
+              <span>
+                {{ message.text }}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          class="chat__conversation-board__message-container"
+          *ngIf="message.type === 'response'"
+        >
+          <div class="chat__conversation-board__message__person">
+            <div class="chat__conversation-board__message__person__avatar">
+              <img src="../../assets/img/chatGPT.jpg" alt="Chat GPT" />
+            </div>
+            <span class="chat__conversation-board__message__person__nickname">
+              Chat GPT
+            </span>
+          </div>
+          <div class="chat__conversation-board__message__context">
+            <div class="chat__conversation-board__message__bubble">
+              <span>
+                {{ message.text }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="chat__conversation-panel">
+      <div class="chat__conversation-panel__container">
+        <input
+          class="chat__conversation-panel__input panel-item"
+          placeholder="Type a message..."
+          type="text"
+          [(ngModel)]="newMessageText"
+          name="input"
+        />
+
+        <ng-container *ngIf="!waitingForResponse">
+          <button
+            class="chat__conversation-panel__button panel-item btn-icon send-message-button"
+            type="button"
+            (click)="sendMessage()"
+            [disabled]="waitingForResponse"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+              data-reactid="1036"
+            >
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+          </button>
+        </ng-container>
+
+        <ng-container *ngIf="waitingForResponse">
+          <button
+            class="chat__conversation-panel__button panel-item btn-icon send-message-button"
+          >
+            <div class="typing typing-1"></div>
+            <div class="typing typing-3"></div>
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <a class="fixed-chat-bottom-btn" (click)="toggleChat()">
+    <div class="chat__conversation-board__message__person">
+      <div class="chat__conversation-board__message__person__avatar">
+        <img src="../assets/img/chatGPT.jpg" alt="Chat GPT" />
+      </div>
+    </div>
+  </a>
+</div>
